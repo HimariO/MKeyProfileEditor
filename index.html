@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html >
+  <head>
+    <meta charset="UTF-8">
+    <title>Navigate With Keyboard</title>
+
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script> -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous"> -->
+    <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/editor_panel.css">
+
+  </head>
+
+  <body>
+    <section class="container" id="display-panel">
+
+      <div class="key-wrapper 87key-layout">
+        <!-- Dont put new tag over here, it will affect the index of rows below it. -->
+        <ul class="row">
+          <li class="key key27">ESC</li>
+          <li class="key-padding-1u"></li>
+          <li class="key key112">F1</li>
+          <li class="key key113">F2</li>
+          <li class="key key114">F3</li>
+          <li class="key key115">F4</li>
+          <li class="key-padding-0p5u"></li>
+          <li class="key key116">F5</li>
+          <li class="key key117">F6</li>
+          <li class="key key118">F7</li>
+          <li class="key key119">F8</li>
+          <li class="key-padding-0p5u"></li>
+          <li class="key key120">F9</li>
+          <li class="key key121">F10</li>
+          <li class="key key122">F11</li>
+          <li class="key key123">F12</li>
+          <li class="key key1234">PS</li>
+          <li class="key key19">SLOCK</li>
+          <li class="key key145">PASUE</li>
+          <li class="key key-padding-1u">.</li>
+        </ul>
+        <ul class="row">
+          <!-- <li class="key-padding-1u"></li> this is padding test~ -->
+          <li class="key key192">`</li>
+          <li class="key key49">1</li>
+          <li class="key key50">2</li>
+          <li class="key key51">3</li>
+          <li class="key key52">4</li>
+          <li class="key key53">5</li>
+          <li class="key key54">6</li>
+          <li class="key key55">7</li>
+          <li class="key key56">8</li>
+          <li class="key key57">9</li>
+          <li class="key key48">0</li>
+          <li class="key key189">-</li>
+          <li class="key key187">=</li>
+          <li class="key key8 key-2u">←</li>
+          <li class="key key45">INSERT</li>
+          <li class="key key36">HOME</li>
+          <li class="key key33">PUP</li>
+          <li class="key key-padding-1u">.</li>
+        </ul>
+
+        <ul class="row">
+          <li class="key k9 key-1p5u">TAB</li>
+          <li class="key k81">q</li>
+          <li class="key k87">w</li>
+          <li class="key k69">e</li>
+          <li class="key k82">r</li>
+          <li class="key k84">t</li>
+          <li class="key k89">y</li>
+          <li class="key k85">u</li>
+          <li class="key k73">i</li>
+          <li class="key k79">o</li>
+          <li class="key k80">p</li>
+          <li class="key k219">{</li>
+          <li class="key k221">}</li>
+          <li class="key k220 key-1p5u">\</li>
+          <li class="key key46">DEL</li>
+          <li class="key key35">END</li>
+          <li class="key key34">PDOWN</li>
+          <li class="key key-padding-1u">.</li>
+        </ul>
+
+        <ul class="row">
+          <li class="key k20 key-1p75u">CAPSLK</li>
+          <li class="key k65">a</li>
+          <li class="key k83">s</li>
+          <li class="key k68">d</li>
+          <li class="key k70">f</li>
+          <li class="key k71">g</li>
+          <li class="key k72">h</li>
+          <li class="key k74">j</li>
+          <li class="key k75">k</li>
+          <li class="key k76">l</li>
+          <li class="key k186">;</li>
+          <li class="key k222">"</li>
+          <li class="key k13 key-2p25u">⏎</li>
+          <li class="key key-padding-1u">.</li>
+          <li class="key key-padding-1u">.</li>
+          <li class="key key-padding-1u">.</li>
+          <li class="key key-padding-1u">.</li>
+        </ul>
+
+        <ul class="row">
+          <li class="key k16 key-2p25u">SHIFT</li>
+          <li class="key k90">z</li>
+          <li class="key k88">x</li>
+          <li class="key k67">c</li>
+          <li class="key k86">v</li>
+          <li class="key k66">b</li>
+          <li class="key k78">n</li>
+          <li class="key k77">m</li>
+          <li class="key k188">,</li>
+          <li class="key k190">.</li>
+          <li class="key k191">?</li>
+          <li class="key k16 key-2p75u">SHIFT</li>
+          <li class="key key-padding-1u">.</li>
+          <li class="key k38">up</li>
+          <li class="key key-padding-1u">.</li>
+          <li class="key key-padding-1u">.</li>
+        </ul>
+
+        <ul class="row">
+          <li class="key key17 key-1p25u">CTRL</li>
+          <li class="key key91 key-1p25u">WIN</li>
+          <li class="key key18 key-1p25u">ALT</li>
+          <li class="key key32 k32">__</li>
+          <li class="key key18 key-1p25u">ALT</li>
+          <li class="key key92 key-1p25u">WIN</li>
+          <li class="key key-1p25u">FN</li>
+          <li class="key key17 key-1p25u">CTRL</li>
+          <li class="key k37">left</li>
+          <li class="key k40">down</li>
+          <li class="key k39">right</li>
+          <li class="key key-padding-1u">.</li>
+        </ul>
+        <!-- <ul class="row">
+          <li class="key k37">left</li>
+          <li class="key k38">up</li>
+          <li class="key k40">down</li>
+          <li class="key k39">right</li>
+        </ul> -->
+
+        <canvas id="pattern"></canvas>
+
+        <menuitem class="display-panel-box">
+          <button class="display-panel-btn" id="btn-play"><i class="fa fa-play-circle" aria-hidden="true"></i></button>
+          <button class="display-panel-btn" id="btn-save"><i class="fa fa-floppy-o" aria-hidden="true"></i></button>
+          <button class="display-panel-btn" id="btn-sdktool"><i class="fa fa-keyboard-o" aria-hidden="true"></i></button>
+        </menuitem>
+      </div>
+    </section>
+
+    <section class="container width100" id="editor-zone">
+      <!-- <div class="row editor-panel">
+        <figure class="col-md-1 type-options">
+          <div class="row type-option type-active" p-type="static"><img class="pattern-type" src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/169963/Amex.png'></div>
+          <div class="row type-option" p-type="ani"><img class="pattern-type" src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/169963/Discover.png'></div>
+          <div class="row type-option" p-type="interact"><img class="pattern-type" src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/169963/Visa.png'></div>
+        </figure>
+        <figure class="col-md-11 time-line">
+          <p>asdasdasdasd</p>
+        </figure>
+      </div> -->
+    </section>
+
+    <canvas id="storage" style="display: none;"></canvas>
+  </body>
+
+  <script src="js/build/react.js"></script>
+  <script src="js/build/react-dom.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.24/browser.min.js"></script>
+  <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+  <script src="js/lib/mousewheel.js" charset="utf-8"></script>
+  <script src="js/lib/gifuct-js.min.js"></script>
+  <script src="js/lib/libgif.js"></script>
+  <script src="js/lib/interact.min.js" charset="utf-8"></script>
+
+  <script src="js/index.js"></script>
+  <script src="js/pattern.js"></script>
+  <script type="text/babel" src="js/UI.js"></script>
+</html>

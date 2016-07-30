@@ -1,0 +1,158 @@
+
+.editor-main-panel {
+
+}
+
+.editor-panel {
+  background-color: #fff;
+  border-bottom: 15px solid #444;
+
+}
+
+
+#pattern {
+  z-index: 10;
+  position: absolute;
+  opacity: 0.3;
+}
+
+.pattern-type {
+  padding: 30px;
+}
+
+.pattern-type:hover{
+  color: #fff;
+}
+
+.type-options {
+  background-color: rgb(178, 255, 110);
+}
+
+.type-options .type-active:after{
+  content: '';
+  position: absolute;;
+  display: inline-flex;
+  /*top: 50%;*/
+  right: 0px;
+  /*margin: 0 0 0 -10px;*/
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-right: 10px solid #FFF;
+  /*border-left: 10px solid #FFF;*/
+
+  -webkit-transition: 0.3s ease;
+  -moz-transition: 0.3s ease;
+  -o-transition: 0.3s ease;
+  transition: 0.3s ease;
+}
+
+
+.time-line {
+
+}
+
+.width100{
+  width: 100%;
+  margin: 0 auto;
+}
+
+.height100{
+  height: 100%;
+  margin: 0 auto;
+}
+
+.table-wrapper {
+  overflow: hidden;
+  /*height: 100%;*/
+  /*marging-top: 10px;*/
+}
+
+
+.table {
+  display: table;
+  table-layout: fixed;
+  width: 100%;
+}
+
+.table .panel {
+  display: table-cell;
+  width: 350px;
+  max-width: 350px;
+}
+
+
+img.loader-preview {
+  margin-top: 10px;
+  max-height: 140px;
+  width: auto;
+}
+
+/*.table .interline{
+  display: table-cell;
+  height: 50%;
+  width: 50px;
+  border-bottom: 10px solide rgb(203, 255, 106);
+}
+
+
+.table .interline:after{
+  contnet: "";
+  height: 50%;
+  width: 50px;
+    border-bottom: 10px solide rgb(203, 255, 106);
+}*/
+
+.add-frame{
+
+  position:absolute;
+  right:20px;
+  bottom:-10px;
+
+  display:block;
+  width:40px;
+  height:40px;
+  line-height:40px;
+  border: 2px solid #f5f5f5;
+  border-radius: 50%;
+  color:#f5f5f5;
+  text-align:center;
+  text-decoration:none;
+  background: #464646;
+  box-shadow: 0 0 3px gray;
+  font-size:20px;
+  font-weight:bold;
+}
+
+.add-pattern:hover {
+    background: #61ebf9;
+}
+
+.add-pattern{
+
+  position:fixed;
+  right:50px;
+  bottom:50px;
+  z-index: 11;
+
+  display:block;
+  width:40px;
+  height:40px;
+  line-height:40px;
+  border: 2px solid #f5f5f5;
+  border-radius: 50%;
+  color:#f5f5f5;
+  text-align:center;
+  text-decoration:none;
+  background: #0fbdfe;
+  box-shadow: 0 0 3px gray;
+  font-size:20px;
+  font-weight:bold;
+}
+
+.add-frame:hover {
+    background: #262626;
+}
+
+.input-group-btn select.form-control{
+  width: auto;
+}

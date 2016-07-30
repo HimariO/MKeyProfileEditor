@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html >
+  <head>
+    <meta charset="UTF-8">
+    <title>Navigate With Keyboard</title>
+
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script> -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+
+
+    <!-- <link rel="stylesheet" href="css/reset.css"> -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/editor_panel.css">
+    <link rel="stylesheet" href="css/expand-btn.css">
+
+  </head>
+
+  <body>
+    <canvas id="gif_here"></canvas>
+    <canvas id="img_cache"></canvas>
+    <input type="file" id="file-in">
+    <button class="btn bnt-info" id="add">0</button>
+    <!-- <img id="example" src="http://icons.iconarchive.com/icons/paomedia/small-n-flat/128/sign-check-icon.png"> -->
+    <!-- <footer class="container">
+      <div class="row" style="height: 200px;"> </div>
+    </footer> -->
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+    <!-- <script src="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/js/bootstrap.js" integrity="sha384-XXXXXXXX" crossorigin="anonymous"></script> -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+    <script src="gifuct-js-master/gifuct-js-master/dist/gifuct-js.js"></script>
+    <script type="text/javascript">
+      var gif = undefined
+      var canvas = document.getElementById('gif_here')
+      var img_cache = document.getElementById('img_cache')
+      var ctx = canvas.getContext('2d')
+      var display_f = 0
+
+      $('#file-in').change(function(event){
+        var reader = new FileReader()
+        reader.onload = (e)=>{
+            gif = new GIF(e.target.result).decompressFrames(true)
+            canvas.width = gif[0].dims.width
+            canvas.height = gif[0].dims.height
+
+            img_cache.width = gif[0].dims.width
+            img_cache.height = gif[0].dims.height
+            display_f = 0
+
+            console.log(canvas.width + ',' + canvas.height)
+            var data = ctx.createImageData(canvas.width, canvas.height)
+            console.log(gif[Math.floor(gif.length/2)])
+            data.data.set(gif[Math.floor(gif.length/2)].patch)
+            ctx.putImageData(data, 0, 0)
+        }
+        reader.readAsArrayBuffer(event.target.files[0])
+
+      })
+
+      $("#add").click(function(){
+        var data = ctx.createImageData(canvas.width, canvas.height)
+
+        $(this).text(display_f)
+
+        data.data.set(gif[display_f].patch)
+        for (var i = 0; i < gif[display_f].length; i++) {
+          gif[display_f].pixels[i]
+        }
+        img_cache.getContext('2d').putImageData(data, 0, 0)
+        ctx.drawImage(img_cache, 0, 0)
+
+        display_f++
+        display_f %= gif.length
+      })
+    </script>
+  </body>
+</html>
