@@ -282,6 +282,11 @@ var PFrameCardView = React.createClass({
 
 var InteractOption = React.createClass({
   // row of selector in InteractCardView.
+  propTypes: {
+    label: React.PropTypes.oneOf(['Play On', 'Init-X', 'Init-Y', 'Scale-X', 'Scale-Y', 'Color Tone']),
+    data_source: React.PropTypes.object.isRequired,
+  },
+
   getDefaultProps: function() {
     return {
       label: '',
@@ -323,6 +328,13 @@ var InteractOption = React.createClass({
           ['*', '+'],
         ]
         // ['Health', 'Armor', 'Ammo'],
+      break
+
+      case 'Color Tone':
+      set_ops = [
+        ['Default', 'Variable', 'Random'],
+        [''],
+      ]
       break
     }
 
@@ -381,6 +393,10 @@ var InteractOption = React.createClass({
           }
       break
 
+      case 'Color Tone':
+        newState = {selected_op: [value, '']}
+      break
+
       default: // operator's selecter case.
         newState = {selected_op: [this.state.selected_op[0], value]}
     }
@@ -388,10 +404,9 @@ var InteractOption = React.createClass({
     this.setState(newState)
 
     // update data in source object.
-    var data_ob = this.props.data_source[this.props.label]
     this.props.data_source[this.props.label].op = value
     this.props.data_source[this.props.label].operator = this.state.selected_op[1]
-    console.log('select on change: '+ value);
+    console.log('select on change: '+ value + ',' + this.state.selected_op[1]);
   },
 
   _setOpValue: function(event) {
@@ -428,6 +443,11 @@ var InteractOption = React.createClass({
 
 
 var InteractCardView = React.createClass({
+  propTypes: {
+    options: React.PropTypes.array.isRequired,
+    data_source: React.PropTypes.object.isRequired,
+  },
+
   getDefaultProps: function() {
       return {data_source: undefined,}
   },
@@ -436,11 +456,11 @@ var InteractCardView = React.createClass({
     return (
       <div className="panel panel-default">
         <div className="panel-body">
-          <InteractOption label="Play On" data_source={this.props.data_source.interact_ops}/>
-          <InteractOption label="Init-X" data_source={this.props.data_source.interact_ops}/>
-          <InteractOption label="Init-Y" data_source={this.props.data_source.interact_ops}/>
-          <InteractOption label="Scale-X" data_source={this.props.data_source.interact_ops}/>
-          <InteractOption label="Scale-Y" data_source={this.props.data_source.interact_ops}/>
+        {
+          this.props.options.map((e, i)=>{
+            return <InteractOption key={i} label={e} data_source={this.props.data_source.interact_ops}/>
+          })
+        }
         </div>
       </div>
     )
@@ -536,9 +556,13 @@ var EditorPanel = React.createClass({
         break
 
       case 'interact':
-        adding_btn = (<button type="button" name="button" className="add-frame" onClick={this._addFrame}>{'+'}</button>)
+        var adding_btn = (<button type="button" name="button" className="add-frame" onClick={this._addFrame}>{'+'}</button>)
+        var option_f = ['Play On', 'Init-X', 'Init-Y', 'Scale-X', 'Scale-Y']
+        var option_s = ['Color Tone']
+
         panel_form.push(<ImageLoader key={0} ob_ref={this.props.ob_ref}/>)
-        panel_form.push(<InteractCardView key={1} data_source={this.props.ob_ref}/>)
+        panel_form.push(<InteractCardView key={1} data_source={this.props.ob_ref} options={option_f}/>)
+        panel_form.push(<InteractCardView key={fID++} data_source={this.props.ob_ref} options={option_s}/>)
 
         for(var i of this.props.ob_ref.frames){
           panel_form.push(<PFrameCardView key={fID++} id={fID} frame_ref={i} removeCallBack={this._removeFrame}/>)

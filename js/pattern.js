@@ -65,6 +65,7 @@ function Pattern(id) {
       'Init-Y': {op: 'KeyPress', operator: '+', value: "0"},
       'Scale-X': {op: 'Default', operator: '', value: "0"},
       'Scale-Y': {op: 'Default', operator: '', value: "0"},
+      'Color Tone': {op: 'Default', operator: '', value: "0"},
     }
     this.interact_type = 'static' //static for pattern have only one frame, ani for more than one frame.
 }
