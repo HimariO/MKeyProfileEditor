@@ -259,7 +259,8 @@ function render(pattern){
         var t_s = frame_stamp[i].time, t_e = frame_stamp[i+1].time
         var t_slice = (t_e - t_s) * fps
         console.log('i: '+ i)
-        var d = {
+
+        var d = { //delta vvalue of parmaters between frames.
           pos_onEditor: {
             x: (frame_stamp[i+1].pos_onEditor.x - frame_stamp[i].pos_onEditor.x) / t_slice,
             y: (frame_stamp[i+1].pos_onEditor.y - frame_stamp[i].pos_onEditor.y) / t_slice,
@@ -276,7 +277,7 @@ function render(pattern){
             a: (frame_stamp[i+1].rgb.a - frame_stamp[i].rgb.a) / t_slice,
           }
         }
-        // console.log('d pos: [' + d.pos_onEditor.x + ',' + d.pos_onEditor.y + ']')
+
         pattern.gif_render_counter = 0
         for (var j = 0; j < t_slice; j++) {
            var nf = frame_stamp[i].copy()

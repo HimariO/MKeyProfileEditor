@@ -83,19 +83,16 @@ function rotateCanvas(canvas_dom,	frame){
 
 	storage.width = canvas_dom.width
 	storage.height = canvas_dom.height
+
+  // console.log(`Error Size ${canvas_dom.width}, ${canvas_dom.height}`)
 	storage.getContext('2d').putImageData(ctx.getImageData(0, 0, canvas_dom.width, canvas_dom.height), 0, 0)
 	ctx.clearRect(0, 0, canvas_dom.width, canvas_dom.height)
 
 	var L = Math.sqrt(Math.pow(canvas_dom.height, 2) + Math.pow(canvas_dom.width, 2))
 	canvas_dom.width = Math.abs(storage.width * Math.cos(Math.PI/180 * (deg))) + Math.abs(storage.height * Math.sin(Math.PI/180 * (deg)))
 	canvas_dom.height = Math.abs(storage.width * Math.sin(Math.PI/180 * (deg))) + Math.abs(storage.height * Math.cos(Math.PI/180 * (deg)))
-	// canvas_dom.height = Math.abs(L*Math.cos(Math.PI/180*deg))
 	ctx.save()
 
-	// ctx.translate(
-	// 	canvas_dom.height * Math.cos(Math.PI/180* deg),
-	// 	L * Math.sin(Math.acos(canvas_dom.width/L)*180/Math.PI + deg) - canvas_dom.height
-	// )
 	ctx.translate(canvas_dom.width/2, canvas_dom.height/2)
   ctx.globalAlpha = frame.rgb.a
 	ctx.rotate(Math.PI/180 * deg)
@@ -166,10 +163,6 @@ function dragMoveListener (event) {
       x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
       y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy
 
-  // translate the element
-  // target.style.webkitTransform =
-  // target.style.transform =
-  //   'translate(' + x + 'px, ' + y + 'px)'
 	target.style.left = (x) + 'px'
 	target.style.top = (y) + 'px'
   // update the posiion attributes
