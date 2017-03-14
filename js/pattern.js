@@ -92,7 +92,7 @@ var t3 = new Pattern_frame(0, t[0])
 t2.pos_onEditor = {x: 900, y: 200}
 t2.time = 0
 t2.unchange = false
-t2.scale.x = 2
+t2.scale.x = 1
 t2.scale.y = 1
 
 

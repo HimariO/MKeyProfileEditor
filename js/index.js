@@ -28,7 +28,7 @@ $('.key').click(function(i, e){  //[debug function]
 })
 
 
-function resizeCanvas(canvas_dom, dx, dy){
+function resizeCanvas(canvas_dom, dx, dy){ // only used in drag and drop event...which is disable in this branch.
 	var ctx = canvas_dom.getContext('2d')
 	var storage = document.getElementById('storage')
 
@@ -46,33 +46,45 @@ function resizeCanvas(canvas_dom, dx, dy){
 		ctx.scale(canvas_dom.width / ori_w, canvas_dom.height / ori_h)
 		ctx.drawImage(storage, 0, 0)
 	// }
+  console.log('this function should not been invoke.')
 }
 
 
 function resizeByFrame(canvas_dom, frame){
 	var ctx = canvas_dom.getContext('2d')
 	var storage = document.getElementById('storage')
+  var s_ctx = storage.getContext('2d')
 
-	storage.width = frame.pattern.ori_img.width
-	storage.height = frame.pattern.ori_img.height
-  if(frame.pattern.gif_content){
+	storage.width = frame.pattern.ori_img.width * frame.scale.x
+	storage.height = frame.pattern.ori_img.height * frame.scale.y
+
+  s_ctx.save()
+  s_ctx.scale(frame.scale.x, frame.scale.y)
+
+  if(frame.pattern.gif_content) {
     var gif = frame.pattern.gif_content
-    var temp = storage.getContext('2d').createImageData(storage.width, storage.height)
+    var temp = s_ctx.createImageData(storage.width, storage.height)
 		temp.data.set(gif[frame.pattern.gif_render_counter].patch)
-    storage.getContext('2d').putImageData(temp, 0, 0)
-  }
-  else
-    storage.getContext('2d').drawImage(frame.pattern.ori_img, 0, 0)
 
-	ctx.save()
+    s_ctx.putImageData(temp, 0, 0)
+  }
+  else {
+    s_ctx.drawImage(frame.pattern.ori_img, 0, 0)
+  }
+
+  s_ctx.restore()
+
+	// ctx.save()
 	ctx.clearRect(0, 0, canvas_dom.width, canvas_dom.height)
 
-	canvas_dom.width = storage.width * frame.scale.x
-	canvas_dom.height = storage.height * frame.scale.y
-
-	ctx.scale(frame.scale.x, frame.scale.y)
-	ctx.drawImage(storage, 0, 0)
-	ctx.restore()
+  var new_pos = [
+    0, 0,
+    frame.pos_onEditor.x - storage.width * frame.scale.x / 2,
+    frame.pos_onEditor.y - storage.height * frame.scale.y / 2
+  ]
+	// ctx.scale(frame.scale.x, frame.scale.y)
+	ctx.drawImage(storage, new_pos[0], new_pos[1])
+	// ctx.restore()
 }
 
 
@@ -110,7 +122,7 @@ function rotateCanvas(canvas_dom,	frame){
 }
 
 
-interact('#pattern')
+interact('#pattern_disableNow')
   .draggable({
     onmove: window.dragMoveListener,
     restrict: {
@@ -280,11 +292,8 @@ function load_pattern_img(img, img_put){
 	var ctx = ptn_canvas.getContext('2d')
 
 	ctx.clearRect(0, 0, ptn_canvas.width, ptn_canvas.height)
-	ptn_canvas.height = img.height
-	ptn_canvas.width = img.width
-	ptn_canvas.style.top = 0 + 'px'
-	ptn_canvas.style.left = 0 + 'px'
-	if(img_put){
+	
+	if(img_put){  // if img if getting from getImageData method img obj wont work with drawImage method.
 		var temp = ctx.createImageData(img.width, img.height)
 		temp.data.set(img_put)
 		ctx.putImageData(temp, 0, 0)
@@ -303,9 +312,7 @@ function applyNewFrame (frame, notshow){
 	// var dh = Math.abs(cw * Math.sin(Math.PI/180 * (frame.deg))) + Math.abs(ch * Math.cos(Math.PI/180 * (frame.deg))) - canv.height
 
 	resizeByFrame(canv, frame)
-	rotateCanvas(canv, frame)
-	canv.style.top = (frame.pos_onEditor.y - canv.height/2) + 'px'
-	canv.style.left = (frame.pos_onEditor.x - canv.width/2) + 'px'
+	// rotateCanvas(canv, frame)
 
   var result = apply_overlap_color(notshow)
   frame.pos_onBoard.x = result.pos[0]
@@ -316,8 +323,12 @@ function applyNewFrame (frame, notshow){
 
 $('document').ready(()=>{
 	var canv = document.getElementById('pattern')
- 	canv.style.top = 1 + 'px'
-	canv.style.left = 1 + 'px'
+  var ctx = canv.getContext('2d')
+ 	canv.width = $('.key-wrapper').width()
+	canv.height = $('.key-wrapper').height()
+  ctx.width = $('.key-wrapper').width() + 'px'
+	ctx.height = $('.key-wrapper').height() + 'px'
+
 })
 
 
