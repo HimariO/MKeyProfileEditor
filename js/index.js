@@ -78,11 +78,11 @@ function resizeByFrame(canvas_dom, frame){
 	ctx.clearRect(0, 0, canvas_dom.width, canvas_dom.height)
 
   var new_pos = [
-    0, 0,
-    frame.pos_onEditor.x - storage.width * frame.scale.x / 2,
-    frame.pos_onEditor.y - storage.height * frame.scale.y / 2
+    frame.pos_onEditor.x - storage.width / 2,
+    frame.pos_onEditor.y - storage.height / 2
   ]
 	// ctx.scale(frame.scale.x, frame.scale.y)
+  console.warn(new_pos);
 	ctx.drawImage(storage, new_pos[0], new_pos[1])
 	// ctx.restore()
 }
@@ -292,7 +292,7 @@ function load_pattern_img(img, img_put){
 	var ctx = ptn_canvas.getContext('2d')
 
 	ctx.clearRect(0, 0, ptn_canvas.width, ptn_canvas.height)
-	
+
 	if(img_put){  // if img if getting from getImageData method img obj wont work with drawImage method.
 		var temp = ctx.createImageData(img.width, img.height)
 		temp.data.set(img_put)

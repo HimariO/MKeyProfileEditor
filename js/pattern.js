@@ -345,6 +345,5 @@ function render(pattern){
 
 
 $('#btn-save').click(function(){
-
     packing()
 })
