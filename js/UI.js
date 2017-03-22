@@ -151,7 +151,7 @@ var PFrameCardView = React.createClass({
       t_class = t_class.replace('form-control form-', '');
 
       if(target.value == '')
-        value = '0'
+        target.value = '0'
 
       var value = parseFloat(target.value)
       if(value===NaN || value=== undefined)

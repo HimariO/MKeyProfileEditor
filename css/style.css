@@ -146,6 +146,7 @@ span:hover {
   top: 20%;
   left: 50px;
   position: absolute;
+  z-index: 10
 }
 
 .display-panel-btn {
