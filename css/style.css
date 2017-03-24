@@ -164,3 +164,9 @@ span:hover {
 .display-panel-btn .fa{
   color: rgb(157, 157, 157);
 }
+
+.top-right {
+  top: 5px;
+  right: 5px;
+  position: absolute;;
+}

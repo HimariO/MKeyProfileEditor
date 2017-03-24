@@ -72,12 +72,14 @@
   display: table;
   table-layout: fixed;
   width: 100%;
+  margin-bottom: 0px;
 }
 
 .table .panel {
   display: table-cell;
   width: 350px;
   max-width: 350px;
+  margin-bottom: 0px;
 }
 
 

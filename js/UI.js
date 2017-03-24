@@ -234,45 +234,50 @@ var PFrameCardView = React.createClass({
     return (
       <div className="panel panel-default">
         <div className="panel-body">
-          <div className="input-group input-group-sm">
-            <span className="input-group-addon">T</span>
-            <input type="text" className="form-control form-T" onChange={this._inputOnchange} value={data.time}/>
-            <span className="input-group-addon">X</span>
-            <input type="text" className="form-control form-X" aria-describedby="basic-addon1" onChange={this._inputOnchange} value={data.pos_onEditor.x}/>
-            <span className="input-group-addon">Y</span>
-            <input type="text" className="form-control form-Y" aria-describedby="basic-addon1" onChange={this._inputOnchange} value={data.pos_onEditor.y}/>
+          <div className="form-group">
+            <div className="input-group input-group-sm">
+              <span className="input-group-addon">T</span>
+              <input type="text" className="form-control form-T" onChange={this._inputOnchange} value={data.time}/>
+              <span className="input-group-addon">X</span>
+              <input type="text" className="form-control form-X" aria-describedby="basic-addon1" onChange={this._inputOnchange} value={data.pos_onEditor.x}/>
+              <span className="input-group-addon">Y</span>
+              <input type="text" className="form-control form-Y" aria-describedby="basic-addon1" onChange={this._inputOnchange} value={data.pos_onEditor.y}/>
+            </div>
           </div>
 
-          <div className="input-group input-group-sm">
-            <span className="input-group-addon">R</span>
-            <input type="text" className="form-control form-R" aria-describedby="basic-addon1" onChange={this._inputOnchange} value={data.rgb.r}/>
-            <span className="input-group-addon">G</span>
-            <input type="text" className="form-control form-G" aria-describedby="basic-addon1" onChange={this._inputOnchange} value={data.rgb.g}/>
+          <div className="form-group">
+            <div className="input-group input-group-sm">
+              <span className="input-group-addon">R</span>
+              <input type="text" className="form-control form-R" aria-describedby="basic-addon1" onChange={this._inputOnchange} value={data.rgb.r}/>
+              <span className="input-group-addon">G</span>
+              <input type="text" className="form-control form-G" aria-describedby="basic-addon1" onChange={this._inputOnchange} value={data.rgb.g}/>
+            </div>
           </div>
 
-          <div className="input-group input-group-sm">
-            <span className="input-group-addon">B</span>
-            <input type="text" className="form-control form-B" aria-describedby="basic-addon1" onChange={this._inputOnchange} value={data.rgb.b}/>
-            <span className="input-group-addon">A</span>
-            <input type="text" className="form-control form-A" aria-describedby="basic-addon1" onChange={this._inputOnchange} />
+          <div className="form-group">
+            <div className="input-group input-group-sm">
+              <span className="input-group-addon">B</span>
+              <input type="text" className="form-control form-B" aria-describedby="basic-addon1" onChange={this._inputOnchange} value={data.rgb.b}/>
+              <span className="input-group-addon">A</span>
+              <input type="text" className="form-control form-A" aria-describedby="basic-addon1" onChange={this._inputOnchange} />
+            </div>
           </div>
 
-          <div className="input-group input-group-sm">
-            <span className="input-group-addon">Roate</span>
-            <input type="text" className="form-control form-Roate" aria-describedby="basic-addon1" onChange={this._inputOnchange} value={data.roate}/>
+          <div className="form-group">
+            <div className="input-group input-group-sm">
+              <span className="input-group-addon">Roate</span>
+              <input type="text" className="form-control form-Roate" aria-describedby="basic-addon1" onChange={this._inputOnchange} value={data.roate}/>
+
+              <span className="input-group-addon">Scale-X</span>
+              <input type="text" className="form-control form-Scale-X" aria-describedby="basic-addon1" onChange={this._inputOnchange} value={data.scale.x}/>
+              <span className="input-group-addon">Scale-Y</span>
+              <input type="text" className="form-control form-Scale-Y" aria-describedby="basic-addon1" onChange={this._inputOnchange} value={data.scale.y}/>
+            </div>
           </div>
 
-          <div className="input-group input-group-sm">
-            <span className="input-group-addon">Scale-X</span>
-            <input type="text" className="form-control form-Scale-X" aria-describedby="basic-addon1" onChange={this._inputOnchange} value={data.scale.x}/>
-            <span className="input-group-addon">Scale-Y</span>
-            <input type="text" className="form-control form-Scale-Y" aria-describedby="basic-addon1" onChange={this._inputOnchange} value={data.scale.y}/>
-          </div>
-
-            <button className="btn btn-default" style={button_center} onClick={this._removeThis}>
-              <a className="fa fa-trash" aria-hidden="true"></a>
-            </button>
-
+          <button className="btn btn-small" style={button_center} onClick={this._removeThis}>
+            <a className="fa fa-trash" aria-hidden="true"></a>
+          </button>
         </div>
       </div>
     )
@@ -416,26 +421,28 @@ var InteractOption = React.createClass({
 
   render: function() {
     return (
-      <div className="input-group input-group">
-        <span className="input-group-addon">{this.props.label + '='}</span>
+      <div className="form-group">
+        <div className="input-group input-group">
+          <span className="input-group-addon">{this.props.label + '='}</span>
 
-        {
-          this.state.options.map((e, i, a)=>{
-            var ops = []
-            for (var j = 0; j < e.length; j++)
-              ops.push(<option value={e[j]} key={j}> {e[j]} </option>)
+          {
+            this.state.options.map((e, i, a)=>{
+              var ops = []
+              for (var j = 0; j < e.length; j++)
+                ops.push(<option value={e[j]} key={j}> {e[j]} </option>)
 
-            return (
-              <span className="input-group-btn" key={i+1}>
-                <select className="form-control" onChange={this._updateOptions} id={i}>
-                    {ops}
-                </select>
-              </span>
-            )
-          })
-        }
+              return (
+                <span className="input-group-btn" key={i+1}>
+                  <select className="form-control" onChange={this._updateOptions} id={i}>
+                      {ops}
+                  </select>
+                </span>
+              )
+            })
+          }
 
-        <input type="text" className="form-control" aria-label="..." onChange={this._setOpValue}/>
+          <input type="text" className="form-control" aria-label="..." onChange={this._setOpValue}/>
+        </div>
       </div>
     )
   }
@@ -557,8 +564,8 @@ var EditorPanel = React.createClass({
 
       case 'interact':
         var adding_btn = (<button type="button" name="button" className="add-frame" onClick={this._addFrame}>{'+'}</button>)
-        var option_f = ['Play On', 'Init-X', 'Init-Y', 'Scale-X', 'Scale-Y']
-        var option_s = ['Color Tone']
+        var option_f = ['Play On', 'Init-X', 'Init-Y']
+        var option_s = ['Scale-X', 'Scale-Y', 'Color Tone']
 
         panel_form.push(<ImageLoader key={0} ob_ref={this.props.ob_ref}/>)
         panel_form.push(<InteractCardView key={1} data_source={this.props.ob_ref} options={option_f}/>)
