@@ -58,8 +58,19 @@ function resizeByFrame(canvas_dom, frame){
 	storage.width = frame.pattern.ori_img.width * frame.scale.x
 	storage.height = frame.pattern.ori_img.height * frame.scale.y
 
+  var L = Math.sqrt(Math.pow(storage.height, 2) + Math.pow(storage.width, 2))
+  var deg = frame.roate
+	rotated_width = Math.abs(storage.width * Math.cos(Math.PI/180 * (deg))) + Math.abs(storage.height * Math.sin(Math.PI/180 * (deg)))
+	rotated_height = Math.abs(storage.width * Math.sin(Math.PI/180 * (deg))) + Math.abs(storage.height * Math.cos(Math.PI/180 * (deg)))
+  storage.width = rotated_width
+	storage.height = rotated_height
+
   s_ctx.save()
   s_ctx.scale(frame.scale.x, frame.scale.y)
+
+  s_ctx.translate(storage.width / 2, storage.height / 2)
+  s_ctx.rotate(frame.roate * Math.PI / 180)
+  s_ctx.translate(-storage.width / 2, -storage.height / 2)
 
   if(frame.pattern.gif_content) {
     var gif = frame.pattern.gif_content
@@ -207,7 +218,7 @@ function apply_overlap_color(notshow) {
 	var cc=0
   var pl = 99, pr = -1, pt = 99, pb = -1;
 	$('.key').each(function(i, e){ //for test overlap check.
-		var sample_per_pixel = 2
+		var sample_per_pixel = 5
 		var h = $(this).height(), w = $(this).width()
 		var pos = $(this).offset()
 
@@ -253,6 +264,7 @@ function apply_overlap_color(notshow) {
       // console.log(polt_rgba);
       // console.log(keymap[row][colume]);
 			cc++
+      if(notshow) return
 			$(this).addClass('active')
 			$(this).css('border-color', max_k)
 			$(this).css('color', max_k)
