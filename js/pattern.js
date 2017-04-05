@@ -92,8 +92,8 @@ var t3 = new Pattern_frame(0, t[0])
 t2.pos_onEditor = {x: 900, y: 200}
 t2.time = 0
 t2.unchange = false
-t2.scale.x = 1
-t2.scale.y = 1
+t2.scale.x = 0.5
+t2.scale.y = 0.5
 
 
 t3.pos_onEditor = {x: 600, y: 100}
@@ -106,8 +106,10 @@ t3.roate = 360
 t[0].frames[0] = t2
 // t[0].frames.push(t3)
 
+var render_result = {'rendered': undefined, 'interact': undefined}
 
-function packing() {
+
+function packing(save) {
   var static_f = []
   var ani_f = []
   var inter_f = []
@@ -185,7 +187,7 @@ function packing() {
     }
 
     var storage = document.getElementById('storage')
-    storage.width = 19
+    storage.width = 20
     storage.height = 6
     var ctx = storage.getContext('2d')
 
@@ -216,18 +218,21 @@ function packing() {
     }
   }
 
-  var blob = new Blob([JSON.stringify({'rendered': final_frames, 'interact': inter_f})], {type: 'application/json'})
-  var url = URL.createObjectURL(blob)
-  var a = document.createElement('a');
-  a.download = 'temp.json'
-  a.href = url
-  var event = new MouseEvent('click', {
-    'view': window,
-    'bubbles': true,
-    'cancelable': true
-  });
-  a.dispatchEvent(event);
+  if(save) {
+    var blob = new Blob([JSON.stringify({'rendered': final_frames, 'interact': inter_f})], {type: 'application/json'})
+    var url = URL.createObjectURL(blob)
+    var a = document.createElement('a');
+    a.download = 'temp.json'
+    a.href = url
+    var event = new MouseEvent('click', {
+      'view': window,
+      'bubbles': true,
+      'cancelable': true
+    });
+    a.dispatchEvent(event);
+  }
 
+  return {'rendered': final_frames, 'interact': inter_f}
 }
 
 
@@ -345,5 +350,41 @@ function render(pattern){
 
 
 $('#btn-save').click(function(){
-    packing()
+    render_result = packing(true)
+})
+
+$('#btn-play').click(function(){
+  if(!render_result['rendered'] || !render_result['interact'])
+    render_result = packing(false)
+    console.log(render_result)
+    // clear the canvas so you can see the effect better.
+    var dom_target = document.getElementById('pattern')
+  	var ctx = dom_target.getContext('2d')
+    ctx.clearRect(0, 0, dom_target.width, dom_target.height)
+
+    function drawPattern(keymap) {
+      $('.key').each(function(i, e){
+        // remove old stlye.
+        $(this).css('border-color', '')
+        $(this).css('color', '')
+        $(this).removeClass('active')
+
+        var colume = $(this).index(), row = $(this).parent('ul').index()
+        if(!keymap[row][colume]){
+          console.log(row + ', ' + colume)
+          console.log($(this).text());
+        }
+  			color = `rgba(${keymap[row][colume][0]}, ${keymap[row][colume][1]}, ${keymap[row][colume][2]}, ${keymap[row][colume][3]})`
+
+  			$(this).addClass('active')
+  			$(this).css('border-color', color)
+  			$(this).css('color', color)
+
+    	})
+    }
+
+    for(var i=0; i<render_result['rendered'].length; i++){
+      setTimeout(drawPattern.bind(null, render_result['rendered'][i]), 65 * i)
+      // break
+    }
 })

@@ -60,17 +60,23 @@ function resizeByFrame(canvas_dom, frame){
 
   var L = Math.sqrt(Math.pow(storage.height, 2) + Math.pow(storage.width, 2))
   var deg = frame.roate
-	rotated_width = Math.abs(storage.width * Math.cos(Math.PI/180 * (deg))) + Math.abs(storage.height * Math.sin(Math.PI/180 * (deg)))
-	rotated_height = Math.abs(storage.width * Math.sin(Math.PI/180 * (deg))) + Math.abs(storage.height * Math.cos(Math.PI/180 * (deg)))
+	var rotated_width = Math.abs(storage.width * Math.cos(Math.PI/180 * (deg))) + Math.abs(storage.height * Math.sin(Math.PI/180 * (deg)))
+	var rotated_height = Math.abs(storage.width * Math.sin(Math.PI/180 * (deg))) + Math.abs(storage.height * Math.cos(Math.PI/180 * (deg)))
+
+  var d_w = rotated_width - storage.width
+  var d_h = rotated_height - storage.height
+
   storage.width = rotated_width
 	storage.height = rotated_height
 
   s_ctx.save()
-  s_ctx.scale(frame.scale.x, frame.scale.y)
 
   s_ctx.translate(storage.width / 2, storage.height / 2)
   s_ctx.rotate(frame.roate * Math.PI / 180)
   s_ctx.translate(-storage.width / 2, -storage.height / 2)
+
+  s_ctx.translate(d_w / 2, d_h / 2)
+  s_ctx.scale(frame.scale.x, frame.scale.y)
 
   if(frame.pattern.gif_content) {
     var gif = frame.pattern.gif_content
@@ -92,44 +98,10 @@ function resizeByFrame(canvas_dom, frame){
     frame.pos_onEditor.x - storage.width / 2,
     frame.pos_onEditor.y - storage.height / 2
   ]
-	// ctx.scale(frame.scale.x, frame.scale.y)
+
   console.warn(new_pos);
+  console.warn(`${storage.width}, ${storage.height}`);
 	ctx.drawImage(storage, new_pos[0], new_pos[1])
-	// ctx.restore()
-}
-
-
-function rotateCanvas(canvas_dom,	frame){
-	var ctx = canvas_dom.getContext('2d')
-	var deg = frame.roate
-	var storage = document.getElementById('storage')
-
-	storage.width = canvas_dom.width
-	storage.height = canvas_dom.height
-
-  // console.log(`Error Size ${canvas_dom.width}, ${canvas_dom.height}`)
-	storage.getContext('2d').putImageData(ctx.getImageData(0, 0, canvas_dom.width, canvas_dom.height), 0, 0)
-	ctx.clearRect(0, 0, canvas_dom.width, canvas_dom.height)
-
-	var L = Math.sqrt(Math.pow(canvas_dom.height, 2) + Math.pow(canvas_dom.width, 2))
-	canvas_dom.width = Math.abs(storage.width * Math.cos(Math.PI/180 * (deg))) + Math.abs(storage.height * Math.sin(Math.PI/180 * (deg)))
-	canvas_dom.height = Math.abs(storage.width * Math.sin(Math.PI/180 * (deg))) + Math.abs(storage.height * Math.cos(Math.PI/180 * (deg)))
-	ctx.save()
-
-	ctx.translate(canvas_dom.width/2, canvas_dom.height/2)
-  ctx.globalAlpha = frame.rgb.a
-	ctx.rotate(Math.PI/180 * deg)
-	ctx.drawImage(
-		storage,
-		-canvas_dom.width/2 + (canvas_dom.width-storage.width)/2,
-		-canvas_dom.height/2 + (canvas_dom.height-storage.height)/2
-	)
-	ctx.restore()
-
-	// ctx.fillStyle = 'white'
-	// ctx.globalAlpha=0.2;
-	// ctx.fillRect(0,0, canvas_dom.width, canvas_dom.height)
-	// ctx.globalAlpha=0.2;
 }
 
 
@@ -210,7 +182,7 @@ function apply_overlap_color(notshow) {
   var center_x = -1, center_y = -1;
 	var  keymap = new Array(6) // 6*19*[r,g,b,a]
 	for (var i = 0; i < keymap.length; i++) {
-		keymap[i] = new Array(19)
+		keymap[i] = new Array(20)
 		for (var j = 0; j < keymap[i].length; j++) {
 			keymap[i][j] = new Array(4).fill(0)
 		}
@@ -320,11 +292,8 @@ function applyNewFrame (frame, notshow){
 
 	var cw = (frame.scale.x) * frame.pattern.size.width
 	var ch = (frame.scale.y) * frame.pattern.size.height
-	// var dw = Math.abs(cw * Math.cos(Math.PI/180 * (frame.deg))) + Math.abs(ch * Math.sin(Math.PI/180 * (frame.deg))) - canv.width
-	// var dh = Math.abs(cw * Math.sin(Math.PI/180 * (frame.deg))) + Math.abs(ch * Math.cos(Math.PI/180 * (frame.deg))) - canv.height
 
 	resizeByFrame(canv, frame)
-	// rotateCanvas(canv, frame)
 
   var result = apply_overlap_color(notshow)
   frame.pos_onBoard.x = result.pos[0]
@@ -342,12 +311,3 @@ $('document').ready(()=>{
 	ctx.height = $('.key-wrapper').height() + 'px'
 
 })
-
-
-// <init start here>
-// load_pattern('http://icons.iconarchive.com/icons/paomedia/small-n-flat/128/sign-check-icon.png')
-// $('#button').click(function(e){
-//  var canv = document.getElementById('pattern')
-// 	canv.style.top = (canv.getBoundingClientRect().top - 100) + 'px'
-// 	apply_overlap_color()
-// })

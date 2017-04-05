@@ -1,0 +1,43 @@
+<html>
+<body>
+
+<canvas id="myCanvas" width="200" height="300" style="border:1px solid #d3d3d3;">
+Your browser does not support the HTML5 canvas tag.</canvas>
+
+<script>
+
+var c = document.getElementById("myCanvas");
+var ctx = c.getContext("2d");
+
+
+ctx.strokeRect(5, 5, 25, 15);
+console.log(c.width / 2 + ',' + c.height / 2)
+
+c.width *= 2
+c.height *= 2
+
+var L = Math.sqrt(Math.pow(c.height, 2) + Math.pow(c.width, 2))
+var deg = 60
+rotated_width = Math.abs(c.width * Math.cos(Math.PI/180 * (deg))) + Math.abs(c.height * Math.sin(Math.PI/180 * (deg)))
+rotated_height = Math.abs(c.width * Math.sin(Math.PI/180 * (deg))) + Math.abs(c.height * Math.cos(Math.PI/180 * (deg)))
+
+var d1 = rotated_width - c.width
+var d2 = rotated_height - c.height
+c.width = rotated_width
+c.height = rotated_height
+
+console.log('scale & rotated');
+console.log(c.width + ',' + c.height)
+
+ctx.translate(c.width / 2, c.height / 2)
+ctx.rotate(deg * Math.PI / 180)
+ctx.translate(-c.width / 2, -c.height / 2)
+ctx.translate(d1/2, d2/2)
+ctx.scale(2, 2);
+ctx.strokeRect(0, 0, 200, 300);
+
+
+</script>
+
+</body>
+</html>
