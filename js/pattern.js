@@ -222,7 +222,7 @@ function packing(save) {
     var blob = new Blob([JSON.stringify({'rendered': final_frames, 'interact': inter_f})], {type: 'application/json'})
     var url = URL.createObjectURL(blob)
     var a = document.createElement('a');
-    a.download = 'temp.json'
+    a.download = 'effect.json'
     a.href = url
     var event = new MouseEvent('click', {
       'view': window,

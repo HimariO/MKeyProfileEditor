@@ -77,6 +77,7 @@ function resizeByFrame(canvas_dom, frame){
 
   s_ctx.translate(d_w / 2, d_h / 2)
   s_ctx.scale(frame.scale.x, frame.scale.y)
+  // s_ctx.globalAlpha = frame.rgb.a
 
   if(frame.pattern.gif_content) {
     var gif = frame.pattern.gif_content
@@ -93,6 +94,8 @@ function resizeByFrame(canvas_dom, frame){
 
 	// ctx.save()
 	ctx.clearRect(0, 0, canvas_dom.width, canvas_dom.height)
+  // ctx.fillStyle = "black"
+  // ctx.fillRect(0, 0, canvas_dom.width, canvas_dom.height)
 
   var new_pos = [
     frame.pos_onEditor.x - storage.width / 2,
@@ -103,53 +106,6 @@ function resizeByFrame(canvas_dom, frame){
   console.warn(`${storage.width}, ${storage.height}`);
 	ctx.drawImage(storage, new_pos[0], new_pos[1])
 }
-
-
-interact('#pattern_disableNow')
-  .draggable({
-    onmove: window.dragMoveListener,
-    restrict: {
-      restriction: "document",
-      endOnly: true,
-      elementRect: { top: 0, left: 0, bottom: 1, right: 1 }
-    },
-		onend: ()=>{apply_overlap_color(false)}
-  })
-  .resizable({
-    preserveAspectRatio: false,
-    edges: { left: false, right: false, bottom: false, top: false } // disable resize for now.
-  })
-  .on('resizemove', function (event) {
-    var target = event.target,
-        x = (parseFloat(target.getAttribute('data-x')) || 0),
-        y = (parseFloat(target.getAttribute('data-y')) || 0)
-
-    // update the element's style
-    target.style.width  = event.rect.width + 'px'
-    target.style.height = event.rect.height + 'px'
-
-    // translate when resizing from top or left edges
-    x += event.deltaRect.left
-    y += event.deltaRect.top
-
-    // target.style.webkitTransform = target.style.transform =
-    //     'translate(' + x + 'px,' + y + 'px)'
-
-    target.setAttribute('data-x', x)
-    target.setAttribute('data-y', y)
-
-	}).on('resizeend', function (event){
-		var target = event.target,
-        x = event.dx,
-        y = event.dy
-
-		//resize image data in canvas
-		var canvas = document.getElementById('pattern')
-		resizeCanvas(canvas, x, y)
-
-		least_frame.scale.x = canvas.Width / least_frame.pattern.size.x
-		least_frame.scale.y = canvas.Height / least_frame.pattern.size.y
-	})
 
 
 function dragMoveListener (event) {
@@ -169,7 +125,7 @@ function dragMoveListener (event) {
 // this is used later in the resizing and gesture demos
 window.dragMoveListener = dragMoveListener
 
-function apply_overlap_color(notshow) {
+function apply_overlap_color(frame, notshow) {
 	var target = $('#pattern')
 	var dom_target = document.getElementById('pattern')
 	var ctx = dom_target.getContext('2d')
@@ -199,10 +155,6 @@ function apply_overlap_color(notshow) {
 			var colume = $(this).index(), row = $(this).parent('ul').index()
 			var polt = []
 
-      pl = colume < pl ? colume : pl;
-      pr = colume > pr ? colume : pr;
-      pt = row < pt ? row : pt;
-      pb = row > pb ? row : pb;
 
 			for (var i = 0 ;i < temp.height ;i+= sample_per_pixel) {
 					for (var j = 0 ;j < temp.width ;j+= sample_per_pixel) {
@@ -229,9 +181,19 @@ function apply_overlap_color(notshow) {
 				$(this).removeClass('active')
 				return
 			}
+      else{
+        pl = colume < pl ? colume : pl;
+        pr = colume > pr ? colume : pr;
+        pt = row < pt ? row : pt;
+        pb = row > pb ? row : pb;
+      }
       var polt_rgba = max_k.slice(5, -1).split(',')
 
 			keymap[row][colume] = polt_rgba.map((e)=>{return parseFloat(e)}) //[r, g, b, a]
+      //apply alpha
+			keymap[row][colume][0] = Math.floor(keymap[row][colume][0] * keymap[row][colume][3] / 255)
+			keymap[row][colume][1] = Math.floor(keymap[row][colume][1] * keymap[row][colume][3] / 255)
+			keymap[row][colume][2] = Math.floor(keymap[row][colume][2] * keymap[row][colume][3] / 255)
       // console.log('---------------------------------------------------------');
       // console.log(polt_rgba);
       // console.log(keymap[row][colume]);
@@ -251,7 +213,9 @@ function apply_overlap_color(notshow) {
 
   center_x = Math.ceil((pl + pr) /2)
   center_y = Math.ceil((pt + pb) /2)
-
+  console.log(`onbord: ${[center_x, center_y]}`);
+  console.log(`LR: ${[pl, pr]}`);
+  console.log(`TD: ${[pt, pb]}`);
 	return {keymap: keymap, pos: [center_x, center_y]}
 }
 
@@ -295,7 +259,7 @@ function applyNewFrame (frame, notshow){
 
 	resizeByFrame(canv, frame)
 
-  var result = apply_overlap_color(notshow)
+  var result = apply_overlap_color(frame, notshow)
   frame.pos_onBoard.x = result.pos[0]
   frame.pos_onBoard.y = result.pos[1]
  	return result

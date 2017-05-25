@@ -526,6 +526,7 @@ var EditorPanel = React.createClass({
     this.props.ob_ref.frames.push(
       this.props.ob_ref.frames.end().copy()
     )
+    this.props.ob_ref.frames.end().time++
     this.forceUpdate()
   },
 
